@@ -13,3 +13,11 @@ frontend/pnpm-debug.log*
 .idea/
 *.suo
 *.user
+
+# .NET / C#
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/
+appsettings.Development.json

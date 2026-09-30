@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DotNetshoesBeach.Api/DotNetshoesBeach.Api.csproj" />
+    <Project Path="src/DotNetshoesBeach.Application/DotNetshoesBeach.Application.csproj" />
+    <Project Path="src/DotNetshoesBeach.Domain/DotNetshoesBeach.Domain.csproj" />
+    <Project Path="src/DotNetshoesBeach.Infrastructure/DotNetshoesBeach.Infrastructure.csproj" />
+  </Folder>
+</Solution>
