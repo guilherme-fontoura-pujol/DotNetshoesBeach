@@ -1,0 +1,15 @@
+# Node / Frontend
+**/node_modules/
+**/dist/
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.user
