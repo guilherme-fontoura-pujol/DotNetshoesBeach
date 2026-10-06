@@ -4,7 +4,7 @@ namespace DotNetshoesBeach.Domain.Entities;
 
 public class Quadra : BaseEntity
 {
-    public string Nome { get; private set; }
+    public string Nome { get; private set; } = null!;
     public bool Ativa { get; private set; }
 
     protected Quadra() { }

@@ -4,12 +4,11 @@ namespace DotNetshoesBeach.Domain.Entities;
 
 public class Cliente : BaseEntity
 {
-    public string Nome { get; private set; }
-    public string Email { get; private set; }
-    public string Telefone { get; private set; }
-    public string SenhaHash { get; private set; }
+    public string Nome { get; private set; } = null!;
+    public string Email { get; private set; } = null!;
+    public string Telefone { get; private set; } = string.Empty;
+    public string SenhaHash { get; private set; } = null!;
 
-    // Construtor sem parâmetros exigido por ferramentas de persistência (EF Core)
     protected Cliente() { }
 
     public Cliente(string nome, string email, string telefone, string senhaHash)

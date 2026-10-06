@@ -6,10 +6,10 @@ namespace DotNetshoesBeach.Domain.Entities;
 public class Reserva : BaseEntity
 {
     public Guid ClienteId { get; private set; }
-    public Cliente Cliente { get; private set; }
+    public Cliente Cliente { get; private set; } = null!;
 
     public Guid QuadraId { get; private set; }
-    public Quadra Quadra { get; private set; }
+    public Quadra Quadra { get; private set; } = null!;
 
     public DateTime DataHoraInicio { get; private set; }
     public DateTime DataHoraFim { get; private set; }
