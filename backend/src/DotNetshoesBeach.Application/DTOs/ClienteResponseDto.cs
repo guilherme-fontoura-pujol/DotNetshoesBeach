@@ -1,8 +1,11 @@
+using DotNetshoesBeach.Domain.Enums;
+
 namespace DotNetshoesBeach.Application.DTOs;
 
 public record ClienteResponseDto(
     Guid Id,
     string Nome,
     string Email,
-    string Telefone
+    string Telefone,
+    Papel Papel
 );

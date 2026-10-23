@@ -26,16 +26,28 @@ public class ClienteRepository : IClienteRepository
             .FirstOrDefaultAsync(c => c.Email == emailNormalizado, cancellationToken);
     }
 
-    public async Task<bool> ExisteEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<bool> ExisteEmailAsync(string email, Guid? ignorarId = null, CancellationToken cancellationToken = default)
     {
         var emailNormalizado = email.Trim().ToLowerInvariant();
         return await _context.Clientes
-            .AnyAsync(c => c.Email == emailNormalizado, cancellationToken);
+            .AnyAsync(c => c.Email == emailNormalizado && (ignorarId == null || c.Id != ignorarId), cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<Cliente>> ListarAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Clientes
+            .AsNoTracking()
+            .OrderBy(c => c.Nome)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task AdicionarAsync(Cliente cliente, CancellationToken cancellationToken = default)
     {
         await _context.Clientes.AddAsync(cliente, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public void Remover(Cliente cliente)
+    {
+        _context.Clientes.Remove(cliente);
     }
 }

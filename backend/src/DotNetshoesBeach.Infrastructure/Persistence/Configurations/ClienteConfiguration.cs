@@ -29,7 +29,15 @@ public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
         builder.Property(c => c.SenhaHash)
             .IsRequired();
 
+        // Guardado como texto ('Cliente' / 'Admin'): mais legível ao consultar o banco.
+        builder.Property(c => c.Papel)
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired();
+
         builder.Property(c => c.CriadoEm)
             .IsRequired();
+
+        builder.Ignore(c => c.EhAdmin);
     }
 }

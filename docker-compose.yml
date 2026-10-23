@@ -1,0 +1,17 @@
+# Sobe só o PostgreSQL para desenvolvimento:  docker compose up -d
+services:
+  db:
+    image: postgres:16
+    container_name: dotnetshoes_beach_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dotnetshoes_beach_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - dotnetshoes_pgdata:/var/lib/postgresql/data
+
+volumes:
+  dotnetshoes_pgdata:

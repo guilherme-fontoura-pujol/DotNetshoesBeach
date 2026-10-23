@@ -1,6 +1,80 @@
-@DotNetshoesBeach.Api_HostAddress = http://localhost:5237
+@host = http://localhost:5237
 
-GET {{DotNetshoesBeach.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### 1. Login como admin (use o e-mail/senha do AdminInicial)
+# @name loginAdmin
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "admin@dotnetshoes.com", "senha": "Admin@12345" }
 
 ###
+@tokenAdmin = {{loginAdmin.response.body.$.token}}
+
+### 2. Admin: criar quadra
+# @name criarQuadra
+POST {{host}}/api/quadras
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{ "nome": "Quadra 1", "descricao": "Areia fina, iluminação LED", "valorHora": 80.00 }
+
+###
+@quadraId = {{criarQuadra.response.body.$.id}}
+
+### 3. Cliente se cadastra sozinho
+POST {{host}}/api/auth/registrar
+Content-Type: application/json
+
+{ "nome": "Maria Silva", "email": "maria@email.com", "telefone": "51999999999", "senha": "senha1234" }
+
+### 4. Login como cliente
+# @name loginCliente
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "maria@email.com", "senha": "senha1234" }
+
+###
+@tokenCliente = {{loginCliente.response.body.$.token}}
+
+### 5. Cliente: listar quadras
+GET {{host}}/api/quadras
+Authorization: Bearer {{tokenCliente}}
+
+### 6. Cliente: ver horários ocupados de uma quadra
+GET {{host}}/api/quadras/{{quadraId}}/ocupados?de=2030-01-01T00:00:00-03:00&ate=2030-01-02T00:00:00-03:00
+Authorization: Bearer {{tokenCliente}}
+
+### 7. Cliente: reservar (ajuste a data para o futuro)
+POST {{host}}/api/reservas
+Authorization: Bearer {{tokenCliente}}
+Content-Type: application/json
+
+{ "quadraId": "{{quadraId}}", "dataHoraInicio": "2030-01-01T18:00:00-03:00", "dataHoraFim": "2030-01-01T19:00:00-03:00" }
+
+### 8. Cliente: minhas reservas
+GET {{host}}/api/reservas/minhas
+Authorization: Bearer {{tokenCliente}}
+
+### 9. Admin: listar clientes
+GET {{host}}/api/clientes
+Authorization: Bearer {{tokenAdmin}}
+
+### 10. Admin: reservas paginadas (filtros opcionais: quadraId, clienteId, de, ate, status, pagina, tamanhoPagina)
+GET {{host}}/api/reservas?status=Confirmada&pagina=1&tamanhoPagina=10
+Authorization: Bearer {{tokenAdmin}}
+
+### 10b. Admin: relatório por quadra no período [de, ate) — ex.: janeiro de 2030
+GET {{host}}/api/relatorios/quadras?de=2030-01-01T00:00:00-03:00&ate=2030-02-01T00:00:00-03:00
+Authorization: Bearer {{tokenAdmin}}
+
+### 11. Admin: colocar quadra em manutenção (cancelando reservas existentes)
+POST {{host}}/api/quadras/{{quadraId}}/manutencao
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{ "motivo": "Troca da areia", "cancelarReservas": true }
+
+### 12. Admin: voltar a disponibilizar
+POST {{host}}/api/quadras/{{quadraId}}/disponibilizar
+Authorization: Bearer {{tokenAdmin}}
